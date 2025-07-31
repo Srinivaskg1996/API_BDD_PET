@@ -3,7 +3,9 @@ package utilities;
 public enum HttpUrl {
 	
 	POST("/v2/pet"),
-	GET("/v2/pet/{id}");
+	GET("/v2/pet/{id}"),
+	PUT("/v2/pet/{id}"),
+	DELETE("/v2/pet/{id}");
 	
 	private String url;
 	

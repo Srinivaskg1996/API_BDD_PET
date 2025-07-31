@@ -9,7 +9,8 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
 		features= {"src/test/resources/PetById.feature"},
         glue= {"stepDefination"},
-        plugin= {"pretty","json:target/jsonReports/cucumber-report.json" }
+        plugin= {"pretty","json:target/jsonReports/cucumber-report.json" },
+		tags= "@sanity"
 )
 
 

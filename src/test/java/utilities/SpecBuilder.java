@@ -24,6 +24,24 @@ public class SpecBuilder {
 			
 			return spec;
 				}
+		else if(HTTPmethod.equalsIgnoreCase("put")){
+			RequestSpecification spec=new RequestSpecBuilder()
+					.setBaseUri(BaseURL.getBaseUrl())
+					.addHeader("accept", "application/json")
+					.setContentType("application/x-www-form-urlencoded")
+					.addFormParam("name", "doggy")
+					.build();
+			
+			return spec;
+				}
+		else if(HTTPmethod.equalsIgnoreCase("delete")){
+			RequestSpecification spec=new RequestSpecBuilder()
+					.setBaseUri(BaseURL.getBaseUrl())
+					.addHeader("accept", "application/json")
+					.build();
+			
+			return spec;
+				}
 		else {
 			 throw new IllegalArgumentException("No spec available for the given HTTP method:" + HTTPmethod);
 		}
