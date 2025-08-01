@@ -18,6 +18,8 @@ Feature: Verify E2E functionality for pet by using id
     When I send a put request to add the pet
     Then the response status code must contain 200
     And pet name should be updated correctly
+    
+
   
    @sanity 
  Scenario: Verify pet name post update
@@ -25,6 +27,12 @@ Feature: Verify E2E functionality for pet by using id
     When I send a get request to get the updated pet data
     Then the response status code must be contain 200
     And pet status should be updated
+    
+        Scenario: Upload a pet image
+    Given set the details for "post image" request
+    When I hit the post request to add the image
+    Then I should get status code as 200
+    And file name should match with with the expected value
    
    @sanity 
  Scenario: Delete the pet

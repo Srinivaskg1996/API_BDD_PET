@@ -17,6 +17,8 @@ import static io.restassured.RestAssured.*;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 public class StepDefination {
 	RequestSpecification request;
 	Response res;
@@ -28,7 +30,7 @@ public class StepDefination {
 	//post data API
 
 	@Given("the pet store API is available")
-	public void the_pet_store_api_is_available() {
+	public void the_pet_store_api_is_available() throws FileNotFoundException {
 		petRequestData = PetPostRequestBody.requestData();
 		request=given()
 				.spec(SpecBuilder
@@ -60,7 +62,7 @@ public class StepDefination {
 		PetPostRequest response=res.as(PetPostRequest.class);
 		int expectedId = petRequestData.getId();
 		int actualId=response.getId();
-		StepDefination.id=actualId;
+
 
 		String url=response.getPhotoUrls().get(2);
 		System.out.println(url);
@@ -68,6 +70,7 @@ public class StepDefination {
 		System.out.println(tag);
 		assertEquals(actualId,expectedId);
 		System.out.println("value of the id is"+actualId);
+		StepDefination.id=actualId;
 	}
 
 
@@ -75,7 +78,7 @@ public class StepDefination {
 	//preparing get data API
 
 	@Given("set request for {string} request")
-	public void set_request_for_request(String HttpMethod) {
+	public void set_request_for_request(String HttpMethod) throws FileNotFoundException {
 		req_get=given()
 				.spec(SpecBuilder
 						.getsepc(HttpMethod));
@@ -113,7 +116,7 @@ public class StepDefination {
 	//Update pet name
 
 	@Given("set the request for {string} request")
-	public void set_the_request_for_request(String httpmethod) {
+	public void set_the_request_for_request(String httpmethod) throws FileNotFoundException {
 		request=given()
 				.spec(SpecBuilder.getsepc(httpmethod));
 	}
@@ -143,7 +146,7 @@ public class StepDefination {
 	//checking updated name post update
 
 	@Given("set the request type to {string}")
-	public void set_the_request_type_to(String HttpMethod) {
+	public void set_the_request_type_to(String HttpMethod) throws FileNotFoundException {
 		req_get=given()
 				.spec(SpecBuilder
 						.getsepc(HttpMethod)); 
@@ -174,7 +177,43 @@ public class StepDefination {
 		System.out.println(updatedName);
 
 	}
-	
+
+	//uploading image
+
+	@Given("set the details for {string} request")
+	public void set_the_details_for_request(String httpmethod) {
+		request=given()
+				.spec(SpecBuilder.getsepc(httpmethod));
+
+	}
+
+	@When("I hit the post request to add the image")
+	public void i_hit_the_post_request_to_add_the_image() {
+		res=request
+				.when()
+				.post(HttpUrl.POST_IMAGE.geturl(id))
+				.then()
+				.extract()
+				.response();
+	}
+
+	@Then("I should get status code as {int}")
+	public void i_should_get_status_code_as(int expectedCode) {
+		int act=res.getStatusCode();
+		assertEquals(act,expectedCode);
+		res.then().log().all();
+	}
+
+	@Then("file name should match with with the expected value")
+	public void file_name_should_match_with_with_the_expected_value() {
+		String messsage=res.jsonPath().get("message");
+		String exp= "shoe.jpg";
+		assertTrue(messsage.contains(exp));
+		System.out.println(messsage);
+
+	}
+
+
 	//deleting a pet
 	@Given("set the data for {string} request")
 	public void set_the_data_for_request(String HttpMethod) {

@@ -8,9 +8,9 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 		features= {"src/test/resources/PetById.feature"},
-        glue= {"stepDefination"},
-        plugin= {"pretty","json:target/jsonReports/cucumber-report.json" },
-		tags= "@sanity"
+        glue= {"stepDefination","hooks"},
+        plugin= {"pretty","json:target/jsonReports/cucumber-report.json" }
+		//tags= "@sanity"
 )
 
 
